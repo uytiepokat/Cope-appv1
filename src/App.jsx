@@ -636,22 +636,7 @@ const COPING_CARDS = [
 ];
 // Generate a full month of mock mood data (current month)
 const generateMonthData = () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-  const today = now.getDate();
-  const daysInMonth = new Date(year, month+1, 0).getDate();
-  const scores = [62,74,55,80,68,85,77,58,71,66,82,70,45,78,63,88,72,60,76,84,57,69,81,65,73,90,55,67,79,71,64];
-  const notes = {3:"Stressful morning",6:"Conflict at work",12:"Hard day",13:"Couldn't sleep",20:"Great session"};
-  // cycle: days 1-5 = period, 6-13 = follicular, 14 = ovulatory, 15-28 = luteal
-  const cycleDays = {1:true,2:true,3:true,4:true,5:true};
-  const data = {};
-  for (let d = 1; d <= Math.min(today, daysInMonth); d++) {
-    const sc = scores[(d-1) % scores.length];
-    const ms = sc<=20?1:sc<=40?2:sc<=60?3:sc<=80?4:5;
-    data[d] = { score: sc, moodScore: ms, note: notes[d] || null, cycle: cycleDays[d] || false };
-  }
-  return data;
+  return {};
 };
 
 const MONTH_DATA = generateMonthData();
@@ -737,15 +722,7 @@ const moodTextColor = (score) => {
   return "#fff";
 };
 
-const MOOD_HISTORY = [
-  { day:"Mon", score:62, note:"Stressful morning" },
-  { day:"Tue", score:74 },
-  { day:"Wed", score:55, note:"Conflict at work" },
-  { day:"Thu", score:80 },
-  { day:"Fri", score:68 },
-  { day:"Sat", score:85, note:"Good walk" },
-  { day:"Sun", score:77 },
-];
+const MOOD_HISTORY = [];
 
 // ── Guided Journals ─────────────────────────────────────────────────
 const GUIDED_JOURNALS = [
@@ -894,50 +871,7 @@ const BREATHE_PATTERNS = [
   { name:"Deep Relax", in:5, hold:0, out:7, desc:"Evening wind-down" },
 ];
 
-const DEFAULT_VAULT = [
-  {
-    id: 1,
-    date: "Tuesday, Feb 25",
-    situation: "Presentation at work didn't go as planned",
-    thought: "Everyone thinks I'm incompetent and my career is over",
-    emotions: ["Shame", "Fear", "Dread"],
-    intensity: 85,
-    evidenceFor: "I stumbled over my words and lost my place twice. A colleague looked away during the key slide.",
-    evidenceAgainst: "My manager thanked me afterwards. No one said anything negative. I've delivered 10+ successful presentations this year.",
-    balanced: "One difficult presentation doesn't define my competence. My manager still trusts me with this project, and I've delivered well many times before. I can learn from what went wrong.",
-    tag: "Work",
-    color: "#FFF3E0",
-    accent: "#B68A20",
-  },
-  {
-    id: 2,
-    date: "Friday, Feb 21",
-    situation: "Friend didn't reply to my messages for two days",
-    thought: "She's angry at me and our friendship is ruined",
-    emotions: ["Anxiety", "Sadness", "Rejection"],
-    intensity: 70,
-    evidenceFor: "She usually replies within hours. I can't think of anything I did wrong but maybe I said something.",
-    evidenceAgainst: "She mentioned being slammed at work last week. She's never held a grudge before. Our friendship has been solid for 5 years.",
-    balanced: "People get busy. Her silence is more likely about her own life than anything I did. I can reach out gently rather than assuming the worst.",
-    tag: "Relationships",
-    color: "#E8F0FF",
-    accent: "#4A6FA8",
-  },
-  {
-    id: 3,
-    date: "Monday, Feb 17",
-    situation: "Skipped the gym three days in a row",
-    thought: "I have no willpower. I'll never be healthy.",
-    emotions: ["Guilt", "Frustration", "Hopelessness"],
-    intensity: 60,
-    evidenceFor: "I said I'd go every day and didn't. This keeps happening.",
-    evidenceAgainst: "I was fighting a cold. I've maintained a consistent routine for months before this. Three days is not a pattern.",
-    balanced: "Missing a few days doesn't erase all my progress. Rest is also part of health. I can start again tomorrow — three days is not three months.",
-    tag: "Self-care",
-    color: "#D4EDDA",
-    accent: "#3D7A5E",
-  },
-];
+const DEFAULT_VAULT = [];
 
 // Single source of truth — used by both Daily Check-in habits step AND Rituals tab
 const DEFAULT_RITUALS = [
@@ -954,20 +888,9 @@ const DEFAULT_RITUALS = [
 const DEFAULT_HABITS = DEFAULT_RITUALS;
 
 // Shared habit analytics config — synced with DEFAULT_HABITS
-const HABIT_IMPACT_CONFIG = [
-  { id:1, name:"Morning Walk",           emoji:"🚶", days:[true,false,true,true,true,true,false],  color:"#A8D5C2", accentColor:"#3D9A6E" },
-  { id:2, name:"Meditation",             emoji:"🧘", days:[true,true,false,true,false,true,true],   color:"#B5A8E0", accentColor:"#6B5BB5" },
-  { id:3, name:"Journaling",             emoji:"📝", days:[false,true,true,true,true,false,true],   color:"#F5C76A", accentColor:"#B68A20" },
-  { id:4, name:"Screen-free hour",       emoji:"📵", days:[true,false,false,true,true,true,false],  color:"#F0B8A8", accentColor:"#C05A3A" },
-  { id:5, name:"Exercise",               emoji:"🏃", days:[false,true,true,false,true,false,true],  color:"#A8D5C2", accentColor:"#3D9A6E" },
-  { id:6, name:"Drink 8 glasses of water",emoji:"💧",days:[true,true,false,true,true,false,true],   color:"#A8D5E8", accentColor:"#1A6A9A" },
-  { id:7, name:"Eat nourishing meals",   emoji:"🥗", days:[true,true,true,false,true,true,false],   color:"#C8E8A8", accentColor:"#4A8A2A" },
-];
+const HABIT_IMPACT_CONFIG = [];
 
-const DEFAULT_MEDS = [
-  { id:1, name:"Sertraline",  dose:"50mg",  time:"Morning", scheduledHour:8,  missedAfterHours:2, emoji:"\uD83D\uDC8A", color:"#E8D5F5", taken:false },
-  { id:2, name:"Clonazepam", dose:"0.5mg", time:"Evening", scheduledHour:20, missedAfterHours:2, emoji:"\uD83D\uDC99", color:"#D1ECF1", taken:false },
-];
+const DEFAULT_MEDS = [];
 
 /* ─── FLOATING LABEL FIELD ─── */
 const Field = ({ label, value, onChange, textarea, rows = 3 }) => (
@@ -3115,26 +3038,65 @@ const InsightsScreen = ({ checkIns, lastMood, cycleDay, allData, setAllData, vau
 
   /* ── Trend data builder ── */
   const buildTrend = (r) => {
-    const seed = [62,74,55,80,68,85,77,58,71,66,82,70,45,78,63,88,72,60,76,84,57,69,81,65,73,90,55,67,79,71,64,68,75,83,60,72];
-    if (r === "7d") return MOOD_HISTORY.map(d => ({ label:d.day, score:d.score, note:d.note||null }));
-    if (r === "1m") {
-      const dim = new Date(realNow.getFullYear(), realNow.getMonth()+1, 0).getDate();
-      return Array.from({length:dim}, (_,i) => ({ label:(i+1)%7===0||i===0?String(i+1):"", score:seed[i%seed.length], note:null }));
+    if (r === "7d") {
+      const now = realNow;
+      const dow = now.getDay();
+      const mondayOffset = dow === 0 ? -6 : 1 - dow;
+      return Array.from({length:7},(_,i) => {
+        const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + mondayOffset + i);
+        const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+        const entry = allData[key];
+        return { label:["M","T","W","T","F","S","S"][i], score: entry?.score || 0, note: entry?.note || null };
+      });
     }
-    if (r === "3m") return Array.from({length:13},(_,i)=>({ label:i%4===0?["Jan","Feb","Mar"][Math.floor(i/4)]||"":"", score:seed[(i*3)%seed.length], note:null }));
+    if (r === "1m") {
+      const dim = new Date(viewYear, viewMonth + 1, 0).getDate();
+      return Array.from({length:dim}, (_,i) => {
+        const d = i + 1;
+        const key = `${viewYear}-${String(viewMonth+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+        const entry = allData[key];
+        return { label: d%7===0||d===1?String(d):"", score: entry?.score || 0, note: entry?.note || null };
+      });
+    }
+    if (r === "3m") {
+      // Show last 12 weeks
+      return Array.from({length:12},(_,i)=>{
+        const weeksAgo = 11 - i;
+        const d = new Date(realNow);
+        d.setDate(d.getDate() - (weeksAgo * 7));
+        // Find avg score for that week
+        let sum = 0, count = 0;
+        for (let j=0; j<7; j++) {
+          const cur = new Date(d);
+          cur.setDate(cur.getDate() + j);
+          const key = `${cur.getFullYear()}-${String(cur.getMonth()+1).padStart(2,"0")}-${String(cur.getDate()).padStart(2,"0")}`;
+          if (allData[key]) { sum += allData[key].score; count++; }
+        }
+        const avg = count ? Math.round(sum/count) : 0;
+        return { label: i%4===0 ? d.toLocaleDateString("en-US",{month:"short"}) : "", score: avg, note:null };
+      });
+    }
     return [];
   };
 
   /* ── Habit data ── */
-  const SLEEP_DATA_L = [
-    { day:"Mon", hrs:6.5, mood:62, meds:true,  habits:true  },
-    { day:"Tue", hrs:5.0, mood:45, meds:false, habits:true  },
-    { day:"Wed", hrs:7.5, mood:71, meds:true,  habits:false },
-    { day:"Thu", hrs:8.0, mood:80, meds:true,  habits:true  },
-    { day:"Fri", hrs:7.0, mood:74, meds:true,  habits:true  },
-    { day:"Sat", hrs:9.0, mood:88, meds:true,  habits:true  },
-    { day:"Sun", hrs:7.5, mood:66, meds:false, habits:true  },
-  ];
+  const SLEEP_DATA_L = (() => {
+    const now = realNow;
+    const dow = now.getDay();
+    const mondayOffset = dow === 0 ? -6 : 1 - dow;
+    return Array.from({length:7},(_,i) => {
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + mondayOffset + i);
+      const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+      const entry = allData[key];
+      return {
+        day: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][i],
+        hrs: entry?.sleepHrs || 0,
+        mood: entry?.score || 0,
+        meds: false, // Could be derived if rituals tracks this
+        habits: !!entry
+      };
+    });
+  })();
   const moodByDay = SLEEP_DATA_L.map(d=>d.mood);
   const goodSleep = SLEEP_DATA_L.filter(d=>d.hrs>=7);
   const poorSleep = SLEEP_DATA_L.filter(d=>d.hrs<7);
@@ -4744,7 +4706,7 @@ const GuidedJournalScreen = ({ goBack, journal, onSave }) => {
   );
 };
 
-const HomeScreen = ({ navigate, checkIns, userName = "there", lastMood }) => {
+const HomeScreen = ({ navigate, checkIns, userName = "there", lastMood, allData }) => {
   const hour = new Date().getHours();
   const baseGreet = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
   const lastSleep = lastMood?.sleepHrs;
@@ -4766,6 +4728,39 @@ const HomeScreen = ({ navigate, checkIns, userName = "there", lastMood }) => {
   useEffect(() => { const t = setTimeout(() => setLoading(false), 500); return () => clearTimeout(t); }, []);
   const [moodBg, setMoodBg] = useState(null);
   const [selectedMood, setSelectedMood] = useState(null);
+
+  // ── Derived Week Data ──
+  const now = new Date();
+  const dow = now.getDay(); // 0 (Sun) to 6 (Sat)
+  const mondayOffset = dow === 0 ? -6 : 1 - dow;
+  const weekData = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + mondayOffset + i);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const entry = allData[key];
+    return {
+      day: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][i],
+      date: d,
+      entry: entry || null,
+      isFuture: d > now,
+      isToday: d.toDateString() === now.toDateString()
+    };
+  });
+
+  // ── Streak Calculation ──
+  const streak = React.useMemo(() => {
+    let count = 0;
+    const d = new Date();
+    while (true) {
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      if (allData && allData[key]) {
+        count++;
+        d.setDate(d.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    return count;
+  }, [allData]);
 
 
   // Dynamic primary action based on time of day
@@ -4814,7 +4809,7 @@ const HomeScreen = ({ navigate, checkIns, userName = "there", lastMood }) => {
             <div style={{ width:42, height:42, borderRadius:14, background:"rgba(242,140,140,.1)", display:"flex", alignItems:"center", justifyContent:"center" }}>
               <span style={{ fontSize:22 }}>🔥</span>
             </div>
-            <span style={{ fontSize:10, fontWeight:700, color:"#F28C8C" }}>7 days</span>
+            <span style={{ fontSize:10, fontWeight:700, color:"#F28C8C" }}>{streak} day{streak !== 1 ? "s" : ""}</span>
           </div>
         </div>
 
@@ -4927,26 +4922,24 @@ const HomeScreen = ({ navigate, checkIns, userName = "there", lastMood }) => {
         </div>
         <div className="card" style={{ padding:"16px 14px" }}>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(7,1fr)", gap:5 }}>
-            {MOOD_HISTORY.map((d,i) => {
-              const now = new Date();
-              const dayOfWeek = (now.getDay() + 6) % 7;
-              const isFuture = i > dayOfWeek;
-              const isToday = i === dayOfWeek;
-              // Derive moodScore from score for color lookup (same logic as generateMonthData)
-              const ms = d.score <= 20 ? 1 : d.score <= 40 ? 2 : d.score <= 60 ? 3 : d.score <= 80 ? 4 : 5;
-              const fill = FACE_FILLS[ms];
-              const bg = isFuture ? "transparent" : fill;
-              const border = isFuture ? "1.5px solid #F0F0F0" : isToday ? `2.5px solid ${fill}` : "none";
-              const textCol = isFuture ? "#D0D0D0" : "#fff";
+            {weekData.map((d,i) => {
+              const entry = d.entry;
+              const isFuture = d.isFuture;
+              const isToday = d.isToday;
+              const ms = entry ? entry.moodScore : 0;
+              const fill = FACE_FILLS[ms] || "#F5F5F5";
+              const bg = isFuture || !entry ? "transparent" : fill;
+              const border = isFuture || !entry ? "1.5px solid #F0F0F0" : isToday ? `2.5px solid ${fill}` : "none";
+              const textCol = isFuture || !entry ? "#D0D0D0" : "#fff";
               return (
                 <div key={i} onClick={() => navigate("insights")} style={{ cursor:"pointer" }}>
                   <div style={{
                     height:42, borderRadius:10, background:bg, border,
                     display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:1,
-                    boxShadow: isToday && !isFuture ? `0 3px 10px ${fill}55` : "none",
+                    boxShadow: isToday && entry ? `0 3px 10px ${fill}55` : "none",
                     transition:"transform .15s",
                   }}>
-                    {!isFuture ? (
+                    {entry ? (
                       <>
                         <svg viewBox="0 0 24 24" width="14" height="14">
                           {FACES.find(f=>f.score===ms)?.eyes}
@@ -4989,7 +4982,8 @@ const getCyclePhase = (day) => {
 };
 
 const MedicineTracker = ({ goBack, rituals, setRituals }) => {
-  const [meds,     setMeds]     = useState(DEFAULT_MEDS);
+  const [meds,     setMeds]     = useState(() => lsGet("cope_meds", DEFAULT_MEDS));
+  useEffect(() => { lsSet("cope_meds", meds); }, [meds]);
   const [section,  setSection]  = useState("meds");    // meds | rituals
   const [addMode,  setAddMode]  = useState(null);      // null | "med" | "ritual"
   const [editId,   setEditId]   = useState(null);      // id being edited
@@ -7015,16 +7009,7 @@ export default function App() {
   const [vault,      setVault]      = useState(() => lsGet("cope_vault", DEFAULT_VAULT));
   const [cycleDay,   setCycleDay]   = useState(null);
   const [rituals,    setRituals]    = useState(() => lsGet("cope_rituals", DEFAULT_RITUALS.map(r => ({...r, done:false}))));
-  const [allData,    setAllData]    = useState(() => {
-    const saved = lsGet("cope_allData", null);
-    if (saved) return saved;
-    const now = new Date(); const init = {};
-    Object.entries(MONTH_DATA).forEach(([d, v]) => {
-      const key = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-      init[key] = v;
-    });
-    return init;
-  });
+  const [allData,    setAllData]    = useState(() => lsGet("cope_allData", {}));
 
   // ── Persist to localStorage (fast local cache) ──
   useEffect(() => { lsSet("cope_userName", userName); }, [userName]);
@@ -7155,8 +7140,8 @@ export default function App() {
             user_name: name,
             check_ins: 0,
             last_mood: { moodScore:3, anxietyScore:3 },
-            all_data: allData,
-            vault: DEFAULT_VAULT,
+            all_data: {},
+            vault: [],
             rituals: DEFAULT_RITUALS.map(r=>({...r,done:false})),
             updated_at: new Date().toISOString(),
           }, { onConflict: "user_id" });
@@ -7172,7 +7157,7 @@ export default function App() {
         {screens.map(s => {
           if (s === "home") return (
             <div key="home" className={`screen ${screen==="home"?"active":"exit-left"}`}>
-              <HomeScreen navigate={navigate} checkIns={checkIns} userName={userName} lastMood={lastMood} />
+              <HomeScreen navigate={navigate} checkIns={checkIns} userName={userName} lastMood={lastMood} allData={allData} />
             </div>
           );
           if (s === "checkin") return screen === "checkin" ? (
